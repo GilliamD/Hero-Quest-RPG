@@ -1,10 +1,13 @@
 import random
 
+
 class Character:
-    def __init__(self, name, power, health):
+    def __init__(self, name, power, health, gil, inv):
         self.name = name
         self.power = power
         self.health = health
+        self.gil = gil
+        self.inv = inv
 
     def attack(self, power, enemy):
         if enemy == medic:
@@ -49,21 +52,23 @@ class Berserker(Character):
         else:
             enemy.health -= power
 
-hero = Hero("Maximo", 5, 100)
-goblin = Character("Goblin", 2, 20)
-medic = Character("Medic", 3, 25)
-shadow = Character("Shadow", 10, 1)
-zombie = Character("Zombie", 1, 10)
-berserker = Berserker("Berserker", 10, 30)
+hero = Hero("Maximo", 50, 100, 9999, [])
+goblin = Character("Goblin", 2, 20, 5,[])
+medic = Character("Medic", 3, 25, 20, []) 
+shadow = Character("Shadow", 10, 1, 100, [])
+zombie = Character("Zombie", 1, 10, 40, [])
+berserker = Berserker("Berserker", 10, 30, 70, [])
+
+options = ["1","2","3","4","5"]
+decicion = input("")
+
+            
 
 def main():
-    print("Welcome to the world of...Frank. Yeah, just Frank. He's some guy. I guess he owns the world or something? Wild.")
-    print("")
-    print("Anyway. Your name is Maximo. I don't care what it was before, you're 'Maximo' now. Hello, Maximo!")
-    print("")
-    print("Oh no! A goblin is minding his own business somewhere. ASSAULT IT!!!")
-    print("")
-    
+    print("Welcome to the world of...Frank. Yeah, just Frank. He's some guy. I guess he owns the world or something? Wild.\n")
+    print("Anyway. Your name is Maximo. I don't care what it was before, you're 'Maximo' now. Hello, Maximo!\n")
+    print("Oh no! A goblin is minding his own business somewhere. ASSAULT IT!!!\n")
+            
     def goblin_battle():    
         while hero.health > 0 and goblin.health > 0:
             goblin.print_status(goblin.name, goblin.health, goblin.power)
@@ -132,14 +137,10 @@ def main():
     berserker_battle()
     
     print("-" * 10)
-    print("Oh man that got really scary in the end, huh? Like you could have died, man. I wonder what his problem was, attacking you like that. Good thing you defended yourself and did nothing wrong!")
-    print("")
-    print("Hey, look. A medic.")
-    print("")
-    print("...")
-    print("")
-    print("...I -SAID- : \"HEY, LOOK. A MEDIC\".")
-    print("")
+    print("Oh man that got really scary in the end, huh? Like you could have died, man. I wonder what his problem was, attacking you like that. Good thing you defended yourself and did nothing wrong!\n")
+    print("Hey, look. A medic.\n")
+    print("...\n")
+    print("...I -SAID- : \"HEY, LOOK. A MEDIC\"\n.")
 
     def medic_battle():
         while hero.health > 0 and medic.health > 0:
@@ -171,9 +172,67 @@ def main():
 
     medic_battle()
     
-    berserker_battle()
     print("-" *10)
-    print("Oh man! What did you do?! No one told you to do that! She's dead, bro! You're a monster! Oh sweet she has some healing potions on her.")
-    print("")
+    print("Oh man! What did you do?! No one told you to do that! She's dead, bro! You're a monster! Oh sweet she has some healing potions on her.\n")
     print("You've stolen...well, can it really be called stealing if it's a corpse? Legally, I think the answer is no. Anywho, 3 healing potions acquired!")
+    
+    def town():#The currently broken structure of which to access the town interface
+        print("You can see familliar structures in the distance and start off toward them.")
+        input("Press \'Return'")
+        exploration = 0
+
+        while exploration < 99:
+            print("You\'re at Rie.")
+            print("1. Meander for a while.")
+            print("2. Visit Bender\'s Tavern.")
+            print("3. Visit The Jester\'s Emporium.")
+            print("4. Visit inn.")
+            print("5. leave this place")
+            print("\n")
+            print("Now, what would you like to do?")
+            decicion = input("")
+            
+            if decicion == options[0]:#Option to speak with villagers| hopefully also, events to get items and gil
+                input("You arrive at the Rie Square! There is a boy on a soap-box that\'s grabbed your attention. \n1. Interact\n Return. Continue strolling\n ")
+                if decicion == "1":
+                    exploration +=1
+                    print("You argue passionately until a crowd forms. Then knock over the box and in the confusion \'borrowed\' some loose change.") # {name.gil} += 21 print("you now have %s gil!")
+                else:
+                    exploration +=1
+                    return town()#Should return to town
+            
+            if decicion == "2":#Second option to interact with townspeople| maybe also, play Blackjack cardgame for gil??
+                print("You arrive at the tavern of which sign depicts some strange grid-mouthed wooden man only having a barrel-like torso with ribbed appendages, \nonly 3 digets on each hand, hooves and some manner of sprout on his head..\n")
+                print("Inside you spot a table of people playing a card game while one suddenly jumps up and exclaims \"BLACKJACK!! \nIll clad individuals beckon passersby in a seedy corner and at the far end the Barkeep. ")
+                input("You shrug and head inside. \n1.Approach Barkeep \nReturn. Sit and play cards\n ")
+                if decicion == "1":
+                    exploration +=1
+                    print("You have a seat and chat with the Barkeep a while.")
+                else:
+                    exploration +=1
+                    town()#Should return to town
+            
+            if decicion == "3":#Shop choice
+                print("You wander inside where you see a varied pathora of items adorning the shelves when burly man adorned in a Jester\'s costume with a strange momochrome palette calls you to the counter.")
+                print("He looks you up and down and proceeds to flip the open/closed sign and draws the blinds. He then states \"I may be a fool but, business is business.\" as he pulls out a rather large chest from under the counter")
+                input("Now, what're ya buyin?\n 1. Potion\n Return. Leave shop\n ")
+                if decicion == "1":#and gil > item price
+                    print("Is that all, Stanger?\n") #item += inv| print("obtained {name.item} you now have %s of them") need dictionary of items to add
+                elif decicion == "1": #and gil < item price
+                    print("Not enough gil, Stranger!\n") # stops item from being perchased| allows more item selection
+                else:
+                    print("Heh, heh, heh... Thank you!!\n")
+                    exploration +=1
+                    town()#Should return to town
+            
+            if decicion == "4":
+                exploration +=1
+                print("Closed for revnovations\n")#Could be used for save feature| try: f = open("sav.txt") print(f.(write()) finally: f.close()
+            
+            if decicion == "5":
+                exploration += 99
+                print("You decide to head back out.")
+            
+    town()#Calls town to open up and be interacted with
+                
 main()
